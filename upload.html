@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
-    <h1>Upload an image</h1>
-    <form action="" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept="image/*" onchange="javascript:this.form.submit()">
-    </form>
+<title>Modern Tornado</title>
 
-    <h2>Recent uploads</h2>
-    {% for file in files %}
-        {% set url = reverse_url('show_image', file['_id']) %}
-        <a href="{{ url }}"><img src="{{ url }}" style="max-width: 50px;"></a>
-    {% end %}
-</html>
+<h1>Upload an image</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="image/*" onchange="javascript:this.form.submit()">
+    {% module xsrf_form_html() %}
+</form>
+
+<h2>Recent uploads</h2>
+{% for img in imgs %}
+    <a href="{{ reverse_url('show_image', img['_id'], 'orig') }}">
+        <img src="{{ reverse_url('show_image', img['_id'], 'thumb') }}">
+    </a>
+{% end %}
